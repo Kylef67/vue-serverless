@@ -34,7 +34,7 @@
 </template>
 
 <script>
-//import { BAlert, BButton } from "bootstrap-vue";
+import { BAlert, BButton } from "bootstrap-vue";
 
 export default {
   data() {
@@ -52,6 +52,6 @@ export default {
       this.dismissCountDown = this.dismissSecs;
     },
   },
-  //components: { BAlert, BButton },
+  components: { BAlert, BButton },
 };
 </script>
