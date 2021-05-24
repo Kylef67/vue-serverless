@@ -1,15 +1,14 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "../views/Home.vue";
-import Alert from "../views/Alert.vue";
-
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: "/",
     name: "Home",
-    component: Home,
+    component: () => {
+      import(/* webpackChunkName: "home" */ "../views/Home.vue");
+    },
   },
   {
     path: "/about",
@@ -23,7 +22,9 @@ const routes = [
   {
     path: "/alert",
     name: "Alert",
-    component: Alert,
+    component: () => {
+      import(/* webpackChunkName: "alert" */ "../views/Alert.vue");
+    },
   },
 ];
 
