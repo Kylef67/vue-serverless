@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <div id="nav">
+    <div id="nav" v-if="isLoggedIn">
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link> |
       <router-link to="/alert">Alerts</router-link>
@@ -8,6 +8,24 @@
     <router-view />
   </div>
 </template>
+
+<script>
+import { Auth } from "aws-amplify";
+
+export default {
+  data() {
+    return { isLoggedIn: false };
+  },
+  async mounted() {
+    try {
+      await Auth.currentSession();
+      this.isLoggedIn = true;
+    } catch (e) {
+      console.log(e);
+    }
+  },
+};
+</script>
 
 <style>
 #app {
