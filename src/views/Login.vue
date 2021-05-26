@@ -1,32 +1,52 @@
 <template>
-  <div>
-    <b-form v-on:submit.prevent @submit="onSubmit" @reset="onReset">
-      <b-form-group
-        id="input-group-1"
-        label="Email address:"
-        label-for="input-1"
-      >
-        <b-form-input
-          id="input-1"
-          v-model="form.email"
-          type="email"
-          required
-        ></b-form-input>
-      </b-form-group>
+  <b-container class="bv-example-row bv-example-row-flex-cols">
+    <b-row class="vh-100 p-5" align-v="center" align-h="center">
+      <b-col cols="6">
+        <b-row align-h="center">
+          <h3>Welcome</h3>
+        </b-row>
 
-      <b-form-group id="input-group-2" label="Password:" label-for="input-2">
-        <b-form-input
-          type="password"
-          id="input-2"
-          v-model="form.password"
-          required
-        ></b-form-input>
-      </b-form-group>
+        <b-row align-h="center">
+          <b-form v-on:submit.prevent @submit="onSubmit" @reset="onReset">
+            <b-form-group id="input-group-1">
+              <b-form-input
+                id="input-1"
+                v-model="form.email"
+                placeholder="Email"
+                type="email"
+                autocomplete="off"
+                required
+              ></b-form-input>
+            </b-form-group>
 
-      <b-button type="submit" variant="primary">Submit</b-button>
-      <b-button type="reset" variant="danger">Reset</b-button>
-    </b-form>
-  </div>
+            <b-form-group id="input-group-2">
+              <b-form-input
+                type="password"
+                id="input-2"
+                placeholder="Password"
+                autocomplete="off"
+                v-model="form.password"
+                required
+              ></b-form-input>
+            </b-form-group>
+
+            <b-col>
+              <b-row align-h="end">
+                <b-button type="submit" variant="primary" :disabled="loading">
+                  <b-spinner
+                    v-show="loading"
+                    small
+                    label="Spinning"
+                  ></b-spinner>
+                  Login</b-button
+                >
+              </b-row>
+            </b-col>
+          </b-form>
+        </b-row>
+      </b-col>
+    </b-row>
+  </b-container>
 </template>
 
 <script>
@@ -39,11 +59,15 @@ export default {
         email: "",
         password: "",
       },
+      loading: false,
     };
   },
   methods: {
     async onSubmit() {
+      this.loading = true;
       await Auth.signIn(this.form.email, this.form.password);
+      this.$emit("login");
+      this.loading = false;
     },
     onReset(event) {
       event.preventDefault();
